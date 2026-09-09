@@ -15,6 +15,7 @@ button:disabled { opacity: .6; cursor: wait; }
 .service { background: white; border: 1px solid #dfe4db; border-radius: 12px; overflow: hidden; min-height: 330px; }
 .service-header { padding: 22px 18px; background: #eaf0e7; border-top: 4px solid #365e4f; min-height: 106px; }
 h2 { font-size: 17px; margin: 0 0 8px; font-weight: 650; }
+.schedule { margin: 0 0 10px; font-size: 12px; line-height: 1.5; white-space: pre-wrap; }
 .count { color: #617263; font-size: 12px; }
 ul { list-style: none; margin: 0; padding: 6px 18px 18px; }
 li { padding: 15px 0; border-bottom: 1px solid #eef0e9; font-size: 15px; overflow-wrap: anywhere; }

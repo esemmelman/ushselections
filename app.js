@@ -1,16 +1,17 @@
 export const services = [
-  ['Erev Rosh Hashana', 'usher_erev_rosh_hashana_selected'],
-  ['Rosh Hashana', 'usher_rosh_hashana_selected'],
-  ['Kol Nidre', 'usher_kol_nidre_selected'],
-  ['Yom Kippur', 'usher_yom_kippur_morning_selected'],
-  ['Mincha', 'usher_yom_kippur_afternoon_evening_selected'],
+  ['Erev Rosh Hashana', 'usher_erev_rosh_hashana_selected', 'Fri., Sep. 11 @ 7:30 pm.'],
+  ['Rosh Hashana', 'usher_rosh_hashana_selected', 'Sat., Sep. 12 @ 10:00 am.'],
+  ['Kol Nidre', 'usher_kol_nidre_selected', 'Sun., Sep. 20 @ 7:30 pm.'],
+  ['Yom Kippur', 'usher_yom_kippur_morning_selected', 'Mon., Sep. 21 @ 10:00 am.'],
+  ['Mincha', 'usher_yom_kippur_afternoon_evening_selected', 'Mon., Sep  21 @ 3:30 pm.'],
 ];
 const api = 'https://fgomaujsdblpzxhnnqrg.supabase.co/rest/v1/usher_high_holiday_volunteers_2026_v1';
 // Publishable browser key. Access is restricted by database grants and RLS.
 const key = 'sb_publishable_JOUqLZDnfGu_yCa6k6FVDQ_AYwpr72i';
 export function groupVolunteers(rows) {
-  return services.map(([title, column]) => ({
+  return services.map(([title, column, schedule]) => ({
     title,
+    schedule,
     names: rows.filter(row => row[column] === true && typeof row.usher_volunteer_name === 'string' && row.usher_volunteer_name.trim())
       .map(row => row.usher_volunteer_name.trim()).sort((a, b) => a.localeCompare(b)),
   }));
@@ -38,17 +39,20 @@ if (typeof document !== 'undefined') {
   const refresh = document.querySelector('#refresh');
   let loaded = false;
   function render(groups, loading = false) {
-    board.replaceChildren(...groups.map(({title, names}) => {
+    board.replaceChildren(...groups.map(({title, schedule, names}) => {
       const section = document.createElement('section');
       section.className = 'service';
       const header = document.createElement('div');
       header.className = 'service-header';
       const heading = document.createElement('h2');
       heading.textContent = title;
+      const date = document.createElement('p');
+      date.className = 'schedule';
+      date.textContent = schedule;
       const count = document.createElement('span');
       count.className = 'count';
       count.textContent = loading ? '—' : `${names.length} volunteer${names.length === 1 ? '' : 's'}`;
-      header.append(heading, count);
+      header.append(heading, date, count);
       section.append(header);
       if (names.length) {
         const list = document.createElement('ul');
